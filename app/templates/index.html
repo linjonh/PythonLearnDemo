@@ -9,8 +9,39 @@
 
 <body style="width: 100%;padding: 20px; text-align: center;">
     <h1>hello world</h1>
-    <img src={{ url_for('static',filename='cp.png') }} width="{{100*4}}" height="{{160*4}}" title="main" alt="main">
+    <img id="cover" src={{ url_for('static',filename='cp.png') }} width="{{100*4}}" height="{{160*4}}" title="main" alt="main" style="display: block; margin: auto;">
+    <!-- <form action="/request/fileSeclectInput" method="post" enctype="multipart/form-data"> -->
+    <form id="transition" enctype="multipart/form-data">
 
+        <p>Files: <input title="Select files to build transition" type="file" name="files" multiple/></p>
+        <p> <button type="submit">Merge Videos</button></p>
+    </form>
+    <div id="result" style="display:none;">
+        <h2>Resulting Video:</h2>
+        <video id="mergedVideo" controls></video>
+    </div>
+    <script>
+        document.getElementById('transition').addEventListener('submit', async function (event) {
+            event.preventDefault(); // 防止表单的默认提交
+
+            const formData = new FormData(this);
+            const response = await fetch('/request/fileSeclectInput', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                const videoUrl = await response.text();
+                const videoElement = document.getElementById('mergedVideo');
+                videoElement.src = videoUrl;
+                document.getElementById('result').style.display = 'block';
+                document.getElementById('cover').style.display = 'none';
+
+            } else {
+                alert('Video merging failed.');
+            }
+        });
+    </script>
 <h2>welcome to my home page</h2>
 
 

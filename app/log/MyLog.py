@@ -7,6 +7,7 @@ import traceback
 _isConfigLog = False
 
 
+@staticmethod
 def initLog():
     # logging.getLogger("myLogger")
     console_handler = logging.StreamHandler()
@@ -20,12 +21,13 @@ def initLog():
                         )
     return
 
-
+@staticmethod
 def logE(msg):
     log(msg, logging.ERROR)
 
 
-def log(msg, level=logging.INFO):
+@staticmethod
+def log(msg, level=logging.INFO,frameIndex=1):
     global _isConfigLog
     if not _isConfigLog:
         initLog()
@@ -34,9 +36,9 @@ def log(msg, level=logging.INFO):
     # stacks = traceback.format_stack()
 
     statcks2 = inspect.stack()
-    frame = statcks2.pop(1)
+    frame = statcks2.pop(frameIndex)
     name = frame.filename.split("\\").pop(-1)
-    callStack = f" <--[{name}${frame.function}:({frame.lineno})]"
+    callStack = f" ##loged on [{name}${frame.function}:({frame.lineno})]##"
 
     # print(callStack)
     # frame.filename

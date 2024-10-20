@@ -5,7 +5,7 @@ import asyncio
 from os import path as fs
 import random
 
-from MyLog import log
+from log.MyLog import log
 
 
 async def openFile():
@@ -82,7 +82,7 @@ async def worker(index):
     return index
 
 
-async def cocurrentCall():
+async def concurrentCall():
     '''多任务并发的demo调用'''
     workers = [worker(i) for i in range(10)]
     result = await asyncio.gather(*workers)
@@ -95,7 +95,7 @@ async def main():
    
 
     # openFile()
-    await cocurrentCall()
+    await concurrentCall()
     log("succes")
     return
 
